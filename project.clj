@@ -7,7 +7,8 @@
                  [ring/ring-defaults "0.3.2"]
                  [org.clojure/java.jdbc "0.7.3"] 
                  [org.postgresql/postgresql "42.1.4"] 
-                 [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]]
+                 [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
+                 [com.layerware/hugsql "0.4.8"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler hs-clojure.handler/app}
   :profiles
