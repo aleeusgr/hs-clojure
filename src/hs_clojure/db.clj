@@ -1,4 +1,4 @@
-(ns hs_clojure.db 
+(ns hs-clojure.db
  (:require [jdbc.pool.c3p0 :as pool])) 
  
 (def spec 
