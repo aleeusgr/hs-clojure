@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS hs_clojure;
+
+CREATE DATABASE hs_clojure;
+
+GRANT ALL PRIVILEGES ON DATABASE hs_clojure TO admin;
+
 CREATE TABLE patients (
   id bigserial PRIMARY KEY,
   name varchar NOT NULL,
