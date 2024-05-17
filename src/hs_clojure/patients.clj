@@ -19,9 +19,9 @@
   (db-patients/get-patient-by-name-like db/spec {:name-like (str "%" name "%")}))
 
 (defn get-patient-by-id
-  [spec {:keys [id]}]
-  (jdbc/query spec
-              ["SELECT * FROM patients WHERE id = ?" id]))
+  [spec id]
+  (first (jdbc/query spec
+                     ["SELECT * FROM patients WHERE id = ?" id])))
 
 (defn get-all-patients
   ([]
