@@ -14,10 +14,6 @@
                                  :address address
                                  :social_security_number social-security-number})))
 
-(defn get-patient
-  [name]
-  (db-patients/get-patient-by-name-like db/spec {:name-like (str "%" name "%")}))
-
 (defn get-patient-by-id
   [spec id]
   (first (jdbc/query spec
@@ -28,16 +24,6 @@
    (get-all-patients ["*"]))
   ([cols]
    (db-patients/get-all-patients db/spec {:cols (map name cols)})))
-
-(defn update-patient
-  [id name sex date-of-birth address social-security-number]
-  (db-patients/update-patient db/spec
-                              {:id id
-                               :name name
-                               :sex sex
-                               :date-of-birth date-of-birth
-                               :address address
-                               :social-security_number social-security-number}))
 
 (defn delete-patient
   [id]
