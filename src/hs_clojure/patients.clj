@@ -1,7 +1,7 @@
-; src/hs_clojure/patients.clj
 (ns hs-clojure.patients
   (:require [hs-clojure.db.patients :as db-patients]
-            [hs-clojure.db :as db])
+            [hs-clojure.db :as db]
+            [clojure.java.jdbc :as jdbc])
   (:import (java.sql Date)))
 
 (defn add-patient
@@ -19,8 +19,9 @@
   (db-patients/get-patient-by-name-like db/spec {:name-like (str "%" name "%")}))
 
 (defn get-patient-by-id
-  [id]
-  (db-patients/get-patient-by-id db/spec {:id id}))
+  [spec {:keys [id]}]
+  (jdbc/query spec
+              ["SELECT * FROM patients WHERE id = ?" id]))
 
 (defn get-all-patients
   ([]
