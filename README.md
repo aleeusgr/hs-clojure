@@ -1,6 +1,6 @@
 # hs-clojure
 
-FIXME
+a Clojure CRUD API demo.
 
 ## Prerequisites
 
