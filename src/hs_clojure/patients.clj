@@ -25,17 +25,24 @@
   ([cols]
    (db-patients/get-all-patients db/spec {:cols (map name cols)})))
 
+
 (defn update-patient
   [id name sex date-of-birth address social-security-number]
-  (let [date-of-birth (java.sql.Date/valueOf date-of-birth)]
-    (db-patients/update-patient db/spec
-                                {:id id
-                                 :name name
-                                 :sex sex
-                                 :date_of_birth date-of-birth
-                                 :address address
-                                 :social_security_number social-security-number})))
+  (let [patient (get-patient-by-id db/spec id)]
+    (if patient
+      (let [date-of-birth (java.sql.Date/valueOf date-of-birth)]
+        (db-patients/update-patient db/spec
+                                   {:id id
+                                    :name name
+                                    :sex sex
+                                    :date_of_birth date-of-birth
+                                    :address address
+                                    :social_security_number social-security-number}))
+      (throw (Exception. "Patient not found")))))
 
 (defn delete-patient
   [id]
-  (db-patients/delete-patient db/spec {:id id}))
+  (let [patient (get-patient-by-id db/spec id)]
+    (if patient
+      (db-patients/delete-patient db/spec {:id id})
+      (throw (Exception. "Patient not found")))))
