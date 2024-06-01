@@ -4,15 +4,24 @@
             [clojure.java.jdbc :as jdbc])
   (:import (java.sql Date)))
 
+(defn validate-inputs
+  [name sex date-of-birth address social-security-number]
+  (let [name-pattern #"[A-Za-z]+ [A-Za-z]+"]
+    (if (re-matches name-pattern name)
+      true
+      (throw (Exception. "Name must be two words containing only letters")))))
+
 (defn add-patient
   [name sex date-of-birth address social-security-number]
-  (let [date-of-birth (java.sql.Date/valueOf date-of-birth)]
-    (db-patients/insert-patient db/spec
-                                {:name name
-                                 :sex sex
-                                 :date_of_birth date-of-birth
-                                 :address address
-                                 :social_security_number social-security-number})))
+  (if (validate-inputs name sex date-of-birth address social-security-number)
+    (let [date-of-birth (java.sql.Date/valueOf date-of-birth)]
+      (db-patients/insert-patient db/spec
+                                   {:name name
+                                    :sex sex
+                                    :date_of_birth date-of-birth
+                                    :address address
+                                    :social_security_number social-security-number}))
+    (throw (Exception. "Invalid input"))))
 
 (defn get-patient-by-id
   [spec id]
