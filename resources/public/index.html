@@ -28,5 +28,13 @@
       <input type="hidden" name="_method" value="DELETE">
       <input type="submit" value="Delete Patient">
     </form>
+    <h2>Edit a patient:</h2>
+    <ul>
+      {{#patients}}
+      <li>
+        <a href="/patients/{{id}}/edit">Edit {{name}}</a>
+      </li>
+      {{/patients}}
+    </ul>
   </body>
 </html>

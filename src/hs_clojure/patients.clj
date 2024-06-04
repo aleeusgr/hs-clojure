@@ -25,8 +25,12 @@
 
 (defn get-patient-by-id
   [spec id]
-  (first (jdbc/query spec
-                     ["SELECT * FROM patients WHERE id = ?" id])))
+  (let [id-pattern #"\d+" ; only allow digits
+        id-str (str id)] ; convert id to a string
+    (if (re-matches id-pattern id-str)
+      (first (jdbc/query spec
+                         ["SELECT * FROM patients WHERE id = ?" id]))
+      (throw (Exception. "Invalid patient ID")))))
 
 (defn get-all-patients
   ([]
@@ -37,7 +41,8 @@
 
 (defn update-patient
   [id name sex date-of-birth address social-security-number]
-  (let [patient (get-patient-by-id db/spec id)]
+  (let [id (Long/parseLong id) ; convert id to a Long
+        patient (get-patient-by-id db/spec id)]
     (if patient
       (let [date-of-birth (java.sql.Date/valueOf date-of-birth)]
         (db-patients/update-patient db/spec
