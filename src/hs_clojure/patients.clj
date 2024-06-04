@@ -65,3 +65,7 @@
   [spec social-security-number]
   (first (jdbc/query spec
                       ["SELECT * FROM patients WHERE social_security_number = ?" social-security-number])))
+(defn get-patients-by-sex
+  [spec sex]
+  (jdbc/query spec
+               ["SELECT * FROM patients WHERE sex = ?" sex]))

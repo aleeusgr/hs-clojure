@@ -105,5 +105,10 @@
         {:status 404
          :headers {"Content-Type" "text/html"}
          :body "Patient not found"})))
+  (GET "/patients/sex/:sex" [sex]
+    (let [patients (patients/get-patients-by-sex db/spec sex)]
+      {:status 200
+       :headers {"Content-Type" "application/json"}
+       :body (json/generate-string patients)}))
   ; Add more routes here
   )
