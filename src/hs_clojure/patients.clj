@@ -60,3 +60,8 @@
     (if patient
       (db-patients/delete-patient db/spec {:id id})
       (throw (Exception. "Patient not found")))))
+
+(defn get-patient-by-social-security-number
+  [spec social-security-number]
+  (first (jdbc/query spec
+                      ["SELECT * FROM patients WHERE social_security_number = ?" social-security-number])))

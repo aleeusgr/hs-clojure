@@ -96,5 +96,14 @@
     {:status 200
      :headers {"Content-Type" "text/html"}
      :body "Patient updated successfully!"})
+  (GET "/patients/search" [social-security-number]
+     (let [patient (patients/get-patient-by-social-security-number db/spec social-security-number)]
+      (if patient
+        {:status 200
+         :headers {"Content-Type" "application/json"}
+         :body (json/generate-string patient)}
+        {:status 404
+         :headers {"Content-Type" "text/html"}
+         :body "Patient not found"})))
   ; Add more routes here
   )
