@@ -28,13 +28,13 @@
       <input type="hidden" name="_method" value="DELETE">
       <input type="submit" value="Delete Patient">
     </form>
+
     <h2>Edit a patient:</h2>
-    <ul>
-      {{#patients}}
-      <li>
-        <a href="/patients/{{id}}/edit">Edit {{name}}</a>
-      </li>
-      {{/patients}}
-    </ul>
+    <form action="/patients/:id/edit" method="get">
+      {{ (ring/anti-forgery-field) | raw }}
+      <label for="id">Patient ID:</label>
+      <input type="number" id="id" name="id"><br><br>
+      <input type="submit" value="Edit Patient">
+    </form>
   </body>
 </html>

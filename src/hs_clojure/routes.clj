@@ -34,16 +34,20 @@
         [:input {:type "submit" :value "Add Patient"}]]
 
        [:h2 "Delete a patient:"]
-       (for [patient patients]
-         [:form {:action (str "/patients/" (:id patient)) :method "post"}
-          csrf-token
-          [:input {:type "hidden" :name "_method" :value "DELETE"}]
-          [:input {:type "submit" :value "Delete Patient"}]])
+        [:form {:action "/delete" :method "post"}
+         csrf-token
+         [:label "Patient ID:"]
+         [:input {:type "number" :name "id"}]
+         [:br]
+         [:input {:type "submit" :value "Delete Patient"}]]
+
        [:h2 "Edit a patient:"]
-       [:ul
-        (for [patient patients]
-          [:li
-           [:a {:href (str "/patients/" (:id patient) "/edit")} "Edit " (:name patient)]])]])))
+       [:form {:action "/edit" :method "get"}
+        csrf-token
+        [:label "Patient ID:"]
+        [:input {:type "number" :name "id"}]
+        [:br]
+        [:input {:type "submit" :value "Edit Patient"}]]])))
 (defn patient-edit-form [patient]
   (html5
     [:head
@@ -81,16 +85,20 @@
       {:status 200
        :headers {"Content-Type" "application/json"}
        :body (json/generate-string patients)}))
-   (DELETE "/patients/:id" [id]
-    (patients/delete-patient (Integer/parseInt id))
-    {:status 204
-     :headers {"Content-Type" "text/html"}
-     :body "Patient deleted successfully!"})
+  (POST "/delete" request
+    (let [id (Long/parseLong (get-in request [:params :id]))]
+      (patients/delete-patient id)
+      {:status 204
+       :headers {"Content-Type" "text/html"}
+       :body "Patient deleted successfully!"}))
+    
    (GET "/patients/:id/edit" [id]
     (let [patient (patients/get-patient-by-id db/spec (Integer/parseInt id))]
       {:status 200
        :headers {"Content-Type" "text/html"}
        :body (patient-edit-form patient)}))
+  (GET "/edit" [id]
+    (ring.util.response/redirect (str "/patients/" id "/edit"))) 
   (POST "/patients/:id" [id name sex date-of-birth address social-security-number]
     (patients/update-patient id name sex date-of-birth address social-security-number)
     {:status 200
