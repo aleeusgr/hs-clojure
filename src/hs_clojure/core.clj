@@ -1,7 +1,10 @@
 (ns hs-clojure.core
-  (:gen-class))
+  (:gen-class)
+  (:require [hs-clojure.handler :refer [app]]
+            [ring.adapter.jetty :refer [run-jetty]]))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Start the Ring server"
   [& args]
-  (println "Hello, World!"))
+  (let [port (Integer/parseInt (or (System/getenv "PORT") "3000"))]
+    (run-jetty app {:port port :join? false})))
