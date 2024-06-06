@@ -7,7 +7,7 @@
                  [cheshire "5.10.0"]
                  [ring/ring-defaults "0.3.2"]
                  [org.clojure/java.jdbc "0.7.3"]
-                 [org.postgresql/postgresql "42.1.4"]
+                 [org.postgresql/postgresql "42.3.1"]
                  [clojure.jdbc/clojure.jdbc-c3p0 "0.3.3"]
                  [com.layerware/hugsql "0.4.8"]]
   :plugins [[lein-ring "0.12.5"]]

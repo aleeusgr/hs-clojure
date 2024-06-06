@@ -7,7 +7,8 @@
    {:subprotocol "postgresql"
     :subname "//localhost:5432/hs_clojure"
     :user "admin"
-    :password ""}))
+    :password "pass"
+    :classname "org.postgresql.Driver"}))
 
 (defn create-patients-table []
   (jdbc/with-db-transaction [tx spec] 
