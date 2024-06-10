@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HS Clojure API</title>
+  </head>
+  <body>
+    <h2>Add a new patient:</h2>
+    <form action="/patients" method="post">
+      {{ (ring/anti-forgery-field) | raw }}
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name"><br><br>
+      <label for="sex">Sex:</label>
+      <input type="text" id="sex" name="sex"><br><br>
+      <label for="date-of-birth">Date of Birth:</label>
+      <input type="date" id="date-of-birth" name="date-of-birth"><br><br>
+      <label for="address">Address:</label>
+      <input type="text" id="address" name="address"><br><br>
+      <label for="social-security-number">Social Security Number:</label>
+      <input type="text" id="social-security-number" name="social-security-number"><br><br>
+      <input type="submit" value="Add Patient">
+    </form>
+
+    <h2>Delete a patient:</h2>
+    <form action="/patients/:id" method="post">
+      {{ (ring/anti-forgery-field) | raw }}
+      <label for="id">Patient ID:</label>
+      <input type="number" id="id" name="id"><br><br>
+      <input type="hidden" name="_method" value="DELETE">
+      <input type="submit" value="Delete Patient">
+    </form>
+
+    <h2>Edit a patient:</h2>
+    <form action="/patients/:id/edit" method="get">
+      {{ (ring/anti-forgery-field) | raw }}
+      <label for="id">Patient ID:</label>
+      <input type="number" id="id" name="id"><br><br>
+      <input type="submit" value="Edit Patient">
+    </form>
+  </body>
+</html>
